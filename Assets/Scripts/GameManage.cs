@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class GameManage : MonoBehaviour {
 
@@ -12,20 +13,22 @@ public class GameManage : MonoBehaviour {
     public GameObject FeuOrangeOff;
     public GameObject FeuVertOff;
 
-
-    
     public float FeuVertDurationMin;
     public float FeuVertDurationMax;
     public float FeuOrangeDuration;
     public float FeuRougeDurationMin;
     public float FeuRougeDurationMax;
 
+    public bool FreePlay;
+    public bool ShowTimer;
+
     private float timer;
 
     private enum Feu {vert,orange,rouge};
     private int activeFeu;
 
-    public enum Pref {VertMin,VertMax,RougeMin,RougeMax };
+    public enum Pref {VertMin,VertMax,RougeMin,RougeMax,FreePlay,ShowTimer};
+    private UserPref PrefFunction;
 
     public static GameManage instance = null;
 
@@ -52,14 +55,10 @@ public class GameManage : MonoBehaviour {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         //get preferences
-        FeuRougeDurationMin = PlayerPrefs.GetFloat(Pref.RougeMin.ToString(), FeuRougeDurationMin);
-        FeuRougeDurationMax = PlayerPrefs.GetFloat(Pref.RougeMax.ToString(), FeuRougeDurationMax);
-        FeuVertDurationMin = PlayerPrefs.GetFloat(Pref.VertMin.ToString(), FeuVertDurationMin);
-        FeuVertDurationMax = PlayerPrefs.GetFloat(Pref.VertMax.ToString(), FeuVertDurationMax);
+        PrefFunction = gameObject.GetComponent<UserPref>();
+        PrefFunction.LoadPref();
 
         setGreenActive();
-
-
     }
 	
 	// Update is called once per frame
@@ -71,20 +70,7 @@ public class GameManage : MonoBehaviour {
         }
         else
         {
-            switch (activeFeu)
-            {
-                case (int)Feu.vert:
-                    SetOrangeActive();
-                    return;
-
-                case (int)Feu.orange:
-                    SetRedActive();
-                    return;
-
-                case (int)Feu.rouge:
-                    setGreenActive();
-                    return;
-            }
+            SwitchLight();
         }
 
 
@@ -93,7 +79,7 @@ public class GameManage : MonoBehaviour {
     float setDuration (float min, float max)
     {
         float newDuration = Random.Range(min, max);
-        return newDuration;
+        return FreePlay ? 360000 : newDuration;
     }
 
     public void setGreenActive() {
@@ -157,5 +143,26 @@ public class GameManage : MonoBehaviour {
                     setGreenActive();
                     return;
             }
+    }
+
+    public void ChangeFreePlay(bool check)
+    {
+        bool dif = check != FreePlay;
+        FreePlay = check;
+
+        if (dif == true)
+        {
+            switch (activeFeu)
+            {
+                case (int)Feu.vert:
+                    setGreenActive();
+                    return;
+
+                case (int)Feu.rouge:
+                    SetRedActive();
+                    return;
+            }
+        }
+
     }
 }
