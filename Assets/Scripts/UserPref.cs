@@ -76,6 +76,8 @@ public class UserPref : MonoBehaviour {
         PlayerPrefs.Save();
         gameObject.GetComponent<UI>().CloseUI();
 
+        Debug.Log("Preferences saved");
+
     }
 
     public static void SetBool(string key, bool state)
@@ -122,5 +124,44 @@ public class UserPref : MonoBehaviour {
         {
 
         }
+    }
+
+    public void CheckMinGreen(string toCheck)
+    {
+        if (float.Parse(toCheck) > float.Parse(vertMax.text))
+        {
+            vertMin.text = vertMax.text;
+            gameObject.GetComponent<UI>().Error();
+        }
+        
+    }
+
+    public void CheckMaxGreen(string toCheck)
+    {
+        if (float.Parse(toCheck) < float.Parse(vertMin.text))
+        {
+            vertMax.text = vertMin.text;
+            gameObject.GetComponent<UI>().Error();
+        }
+        
+    }
+
+    public void CheckMinRed(string toCheck)
+    {
+        if (float.Parse(toCheck) > float.Parse(vertMax.text))
+        {
+            rougeMin.text = rougeMax.text;
+            gameObject.GetComponent<UI>().Error();
+        }
+        
+    }
+
+    public void CheckMaxRed(string toCheck)
+    {
+        if (float.Parse(toCheck) < float.Parse(vertMax.text))
+        {
+            rougeMax.text = rougeMin.text;
+            gameObject.GetComponent<UI>().Error();
+        }        
     }
 }

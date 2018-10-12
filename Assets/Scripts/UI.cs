@@ -20,9 +20,10 @@ public class UI : MonoBehaviour {
 
     public void CloseUI()
     {
-        UIPanel.SetActive(false);
+        UIPanel.GetComponent<Animator>().SetTrigger("out");
     }
 
+    
     public void ActivateMinMax()
     {
         CanvasGroup minmaxplanel = UIMinMaxPanel.GetComponent<CanvasGroup>();
@@ -35,5 +36,10 @@ public class UI : MonoBehaviour {
         CanvasGroup minmaxplanel = UIMinMaxPanel.GetComponent<CanvasGroup>();
         minmaxplanel.interactable = false;
         minmaxplanel.alpha = .5f;
+    }
+
+    public void Error()
+    {
+        UIPanel.GetComponent<Animator>().SetTrigger("error");
     }
 }
