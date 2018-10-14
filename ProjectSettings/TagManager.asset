@@ -44,6 +44,9 @@ TagManager:
   - name: background
     uniqueID: 3312415055
     locked: 0
+  - name: stand
+    uniqueID: 2376977649
+    locked: 0
   - name: lights off
     uniqueID: 2822094299
     locked: 0

@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UI;
 
 public class GameManage : MonoBehaviour {
 
-    public GameObject FeuRouge;
-    public GameObject FeuOrange;
-    public GameObject FeuVert;
+    public Lights GreenLight;
+    public Lights OrangeLight;
+    public Lights RedLight;
 
-    public GameObject FeuRougeOff;
-    public GameObject FeuOrangeOff;
-    public GameObject FeuVertOff;
+    public Text countDownText;
 
     public float FeuVertDurationMin;
     public float FeuVertDurationMax;
@@ -63,6 +62,7 @@ public class GameManage : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        countDownText.text = Mathf.Floor(timer).ToString();
         if (timer > 0)
         {
             timer -= Time.deltaTime;
@@ -83,14 +83,9 @@ public class GameManage : MonoBehaviour {
     }
 
     public void setGreenActive() {
-        FeuRouge.SetActive(false);
-        FeuRougeOff.SetActive(true);
-
-        FeuOrange.SetActive(false);
-        FeuOrangeOff.SetActive(true);
-
-        FeuVert.SetActive(true);
-        FeuVertOff.SetActive(false);
+        RedLight.TurnOff();
+        OrangeLight.TurnOff();
+        GreenLight.TurnOn();
 
         activeFeu = (int)Feu.vert;
         timer = setDuration(FeuVertDurationMin, FeuVertDurationMax);
@@ -98,14 +93,9 @@ public class GameManage : MonoBehaviour {
     }
 
     public void SetOrangeActive() {
-        FeuVert.SetActive(false);
-        FeuVertOff.SetActive(true);
-
-        FeuOrange.SetActive(true);
-        FeuOrangeOff.SetActive(false);
-
-        FeuRouge.SetActive(false);
-        FeuRougeOff.SetActive(true);
+        RedLight.TurnOff();
+        OrangeLight.TurnOn();
+        GreenLight.TurnOff();
 
         activeFeu = (int)Feu.orange;
         timer = FeuOrangeDuration;
@@ -114,14 +104,9 @@ public class GameManage : MonoBehaviour {
 
     public void SetRedActive()
     {
-        FeuVert.SetActive(false);
-        FeuVertOff.SetActive(true);
-
-        FeuOrange.SetActive(false);
-        FeuOrangeOff.SetActive(true);
-
-        FeuRouge.SetActive(true);
-        FeuRougeOff.SetActive(false);
+        RedLight.TurnOn();
+        OrangeLight.TurnOff();
+        GreenLight.TurnOff();
 
         activeFeu = (int)Feu.rouge;
         timer = setDuration(FeuRougeDurationMin, FeuRougeDurationMax);
