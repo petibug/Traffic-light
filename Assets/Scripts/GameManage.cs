@@ -10,7 +10,8 @@ public class GameManage : MonoBehaviour {
     public Lights OrangeLight;
     public Lights RedLight;
 
-    public Text countDownText;
+    public Color ColorGreenText;
+    public Color ColorRedText;
 
     public float FeuVertDurationMin;
     public float FeuVertDurationMax;
@@ -20,6 +21,12 @@ public class GameManage : MonoBehaviour {
 
     public bool FreePlay;
     public bool ShowTimer;
+
+    public GameObject StandObject;
+    public GameObject TimerObject;
+    public Text countDownText;
+    public float WithTimerPosition = 43.4f;
+    public float WithoutTimerPosition = 51.4f;
 
     private float timer;
 
@@ -62,15 +69,21 @@ public class GameManage : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        countDownText.text = Mathf.Floor(timer).ToString();
+
+
+        
         if (timer > 0)
         {
             timer -= Time.deltaTime;
 
+            //display timer
+
+            TimerText();
+
         }
         else
         {
-            SwitchLight();
+             SwitchLight();
         }
 
 
@@ -79,7 +92,7 @@ public class GameManage : MonoBehaviour {
     float setDuration (float min, float max)
     {
         float newDuration = Random.Range(min, max);
-        return FreePlay ? 360000 : newDuration;
+        return FreePlay ? 360000 : Mathf.Round(newDuration);
     }
 
     public void setGreenActive() {
@@ -113,6 +126,18 @@ public class GameManage : MonoBehaviour {
         Debug.Log("Feu rouge actif : " + timer + " secondes");
     }
 
+    private void SetShowTimer()
+    {
+        StandObject.transform.position = new Vector3(StandObject.transform.position.x, WithTimerPosition, StandObject.transform.position.z);
+        TimerObject.SetActive(true);
+    }
+
+    private void SetHideTimer()
+    {
+        StandObject.transform.position = new Vector3(StandObject.transform.position.x,WithoutTimerPosition, StandObject.transform.position.z);
+        TimerObject.SetActive(false);
+    }
+
     public void SwitchLight() {
             switch (activeFeu)
             {
@@ -128,6 +153,26 @@ public class GameManage : MonoBehaviour {
                     setGreenActive();
                     return;
             }
+    }
+
+    private void TimerText()
+    {
+        countDownText.text = Mathf.Floor(timer) > 0 ? Mathf.Floor(timer).ToString() : "";
+
+        switch (activeFeu)
+        {
+            case (int)Feu.vert:
+                countDownText.color = ColorGreenText;
+                return;
+
+            case (int)Feu.orange:
+                countDownText.text = "";
+                return;
+
+            case (int)Feu.rouge:
+                countDownText.color = ColorRedText;
+                return;
+        }
     }
 
     public void ChangeFreePlay(bool check)
@@ -147,6 +192,28 @@ public class GameManage : MonoBehaviour {
                     SetRedActive();
                     return;
             }
+        }
+
+    }
+
+    public void ChangeShowTimer(bool check)
+    {
+        bool dif = check != ShowTimer;
+        ShowTimer = check;
+
+        if (ShowTimer == true)
+        {
+            if (FreePlay == true)
+            {
+                SetHideTimer();
+            }
+            else {
+                SetShowTimer();
+            }
+        }
+        else
+        {
+            SetHideTimer();
         }
 
     }

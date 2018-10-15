@@ -47,7 +47,7 @@ public class UserPref : MonoBehaviour {
         GameManage.instance.FeuVertDurationMax = LoadRougeMax;
 
         GameManage.instance.ChangeFreePlay(LoadFreePlay);
-        GameManage.instance.ShowTimer = LoadShowTimer;
+        GameManage.instance.ChangeShowTimer (LoadShowTimer);
 
     }
 
@@ -60,7 +60,7 @@ public class UserPref : MonoBehaviour {
         GameManage.instance.FeuRougeDurationMax = float.Parse(rougeMax.text);
 
         GameManage.instance.ChangeFreePlay(FreePlayToggle.isOn);
-        GameManage.instance.ShowTimer = ShowTimerToggle.isOn;
+        GameManage.instance.ChangeShowTimer(ShowTimerToggle.isOn);
   
 
         //preferences
@@ -148,7 +148,7 @@ public class UserPref : MonoBehaviour {
 
     public void CheckMinRed(string toCheck)
     {
-        if (float.Parse(toCheck) > float.Parse(vertMax.text))
+        if (float.Parse(toCheck) > float.Parse(rougeMax.text))
         {
             rougeMin.text = rougeMax.text;
             gameObject.GetComponent<UI>().Error();
@@ -158,7 +158,7 @@ public class UserPref : MonoBehaviour {
 
     public void CheckMaxRed(string toCheck)
     {
-        if (float.Parse(toCheck) < float.Parse(vertMax.text))
+        if (float.Parse(toCheck) < float.Parse(rougeMin.text))
         {
             rougeMax.text = rougeMin.text;
             gameObject.GetComponent<UI>().Error();
