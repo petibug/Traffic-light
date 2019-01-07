@@ -41,10 +41,10 @@ public class UserPref : MonoBehaviour {
         SwitchTimer(LoadShowTimer);
 
         //send prefrences to game manager
-        GameManage.instance.FeuRougeDurationMin = LoadVertMin;
-        GameManage.instance.FeuRougeDurationMax = LoadVertMax;
-        GameManage.instance.FeuVertDurationMin = LoadRougeMin;
-        GameManage.instance.FeuVertDurationMax = LoadRougeMax;
+        GameManage.instance.FeuVertDurationMin = LoadVertMin;
+        GameManage.instance.FeuVertDurationMax = LoadVertMax;
+        GameManage.instance.FeuRougeDurationMin = LoadRougeMin;
+        GameManage.instance.FeuRougeDurationMax = LoadRougeMax;
 
         GameManage.instance.ChangeFreePlay(LoadFreePlay);
         GameManage.instance.ChangeShowTimer (LoadShowTimer);
